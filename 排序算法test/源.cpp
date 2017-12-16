@@ -1,6 +1,6 @@
 ﻿#include <iostream>
 #include <time.h>
-#define  LENGTH 10
+#define  LENGTH 10000
 using namespace std;
 
 void print_which_sort(const int i);
@@ -19,24 +19,21 @@ int select_min_key(int* array, const int i);//找出最小的下标
 void select_sort(int* array);//简单选择排序
 void heap_adjust(int* array, int s, int m);
 void heap_sort(int* array);//堆排序
+void shell_sort(int* a);//另一个希尔排序
+void merge(int* a, int* aux, int lo, int mid, int hi);
+void merge_sort(int* a, int* aux, int lo, int hi);
+void merge_sort(int* a, int n);//归并排序
+void shell_sort(int* a, int i);//最后一个希尔排序
 int main()
 {
 	clock_t start = 0, finish = 0;
-	//int array[LENGTH] = { 4, 9, 8, 3, 6, 7, 5, 0, 2, 1 };
 	int array[LENGTH];
 	int dlta[] = { 1, 5, 19, 41, 109, 209, 505, 929, 2161, 3905 };//希尔排序增量
 
-	//OK shell_sort(array, dlta, 10);
-	//OK bubble_sort(array);
-	//OK insert_sort(array);
-	//OK binary_insertion_sort(array);
-	//OK quick_sort(array);
-	//OK select_sort(array);
-	//show_array(array);
-	for (int i = 6; i < 7; ++i)
+	for (int i = 0; i < 10; ++i)
 	{
 		init_array(array);
-		show_array(array);
+		//show_array(array);
 		print_which_sort(i);
 		switch (i)
 		{
@@ -75,13 +72,28 @@ int main()
 			heap_sort(array);
 			finish = clock();
 			break;
+		case 7:
+			start = clock();
+			shell_sort(array);
+			finish = clock();
+			break;
+		case 8:
+			start = clock();
+			merge_sort(array,LENGTH);
+			finish = clock();
+			break;
+		case 9:
+			start = clock();
+			shell_sort(array, 1);
+			finish = clock();
+			break;
 		default:
 			std::cout << "There is no such choice..." << endl;
 			break;
 		}
 		std::cout << "cost time: " << double(finish - start) / CLOCKS_PER_SEC * 1000 << "ms" << endl;
 		start = 0; finish = 0;
-		show_array(array);
+		//show_array(array);
 		std::cout << endl << endl << endl;
 	}
 
@@ -115,6 +127,15 @@ void print_which_sort(const int i)
 		break;
 	case 6:
 		std::cout << "heap_sort------------------" << endl;
+		break;
+	case 7:
+		std::cout << "shell_sort_the_other------------------" << endl;
+		break;
+	case 8:
+		std::cout << "merge_sort------------------" << endl;
+		break;
+	case 9:
+		std::cout << "shell_sort_another------------------" << endl;
 		break;
 	default:
 		std::cout << "There is no such choice..." << endl;
@@ -164,7 +185,56 @@ void shell_insert(int* array, const int dk)
 		}
 	}
 }
-
+void shell_sort(int* a)
+{
+	int h = 1;
+	while (h < LENGTH / 3) 
+		h = 3 * h + 1;
+	while (h >= 1)
+	{
+		for (int i = 0; i < h; ++i)
+		{
+			for (int j = i + h; j < LENGTH; j += h)
+			{
+				int k = j;
+				int temp = a[k];
+				while (k >= h && temp < a[k - h])
+				{
+					a[k] = a[k - h];
+					k -= h;
+				}
+				a[k] = temp;
+			}
+		}
+		h = h / 3;
+	}
+}
+void shell_sort(int* a, int i)
+{
+	int dlta[] = { 1, 5, 19, 41, 109, 209, 505, 929, 2161, 3905 };
+	int h = 1, xulie = 0;
+	//while (h < LENGTH / 3)
+	//	h = 3 * h + 1;
+	while (xulie<10)
+	{
+		h = dlta[xulie];
+		for (int i = 0; i < h; ++i)
+		{
+			for (int j = i + h; j < LENGTH; j += h)
+			{
+				int k = j;
+				int temp = a[k];
+				while (k >= h && temp < a[k - h])
+				{
+					a[k] = a[k - h];
+					k -= h;
+				}
+				a[k] = temp;
+			}
+		}	
+		xulie++;
+	}
+}
 void bubble_sort(int* array)
 {
 	int temp = 0;
@@ -281,16 +351,16 @@ int select_min_key(int* array,const int i)
 void heap_sort(int* array)
 {
 	auto temp = 0;
-	for (int i = LENGTH/2; i > 0 ; --i)
+	for (int i = LENGTH/2; i >= 0 ; --i)
 	{
 		heap_adjust(array, i, LENGTH);
 	}
-	for (int i = LENGTH; i > 1; --i)
+	for (int i = LENGTH - 1; i >= 0; --i)
 	{
-		temp = array[1];
-		array[1] = array[i];
+		temp = array[0];
+		array[0] = array[i];
 		array[i] = temp;
-		heap_adjust(array, 1, i - 1);
+		heap_adjust(array, 0, i - 1);
 	}
 }
 void heap_adjust(int* array, int s, int m)
@@ -306,4 +376,39 @@ void heap_adjust(int* array, int s, int m)
 		s = i;
 	}
 	array[s] = rc;
+}
+
+void merge(int* a, int* aux, int low, int mid, int high)
+{
+	int i = low, j = mid + 1;  
+
+	for (int k = low; k <= high; ++k) 
+		aux[k] = a[k];
+
+	for (int k = low; k <= high; ++k) 
+	{
+		if (i > mid)  
+			a[k] = aux[j++];
+		else if (j > high) 
+			a[k] = aux[i++];
+		else if (aux[i] < aux[j]) 
+			a[k] = aux[i++];
+		else
+			a[k] = aux[j++];
+	}
+}
+void merge_sort(int* a, int* aux, int low, int high)
+{
+	if (high <= low)
+		return;
+	int mid = low + (high - low) / 2;
+	merge_sort(a, aux, low, mid);
+	merge_sort(a, aux, mid + 1, high);
+	merge(a, aux, low, mid, high);
+}
+void merge_sort(int* a, int n)
+{
+	int * aux = new int[n];
+	merge_sort(a, aux, 0, n - 1);
+	delete[] aux;
 }
