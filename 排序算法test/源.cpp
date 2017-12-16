@@ -1,30 +1,30 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <time.h>
 #define  LENGTH 10
 using namespace std;
 
 void print_which_sort(const int i);
-void init_array(int* array);//³õÊ¼»¯Êı×é, ³õÊ¼µÄ·¶Î§Îª1~1000
-void show_array(int* array);//´òÓ¡Êı×é
-double random(const double start, const double end);//Ëæ»úÊı, À´³õÊ¼»¯Êı×é
-void shell_sort(int* array, const int* dlta, const int dlta_count);//Ï£¶ûÅÅĞò
+void init_array(int* array);//åˆå§‹åŒ–æ•°ç»„, åˆå§‹çš„èŒƒå›´ä¸º1~1000
+void show_array(int* array);//æ‰“å°æ•°ç»„
+double random(const double start, const double end);//éšæœºæ•°, æ¥åˆå§‹åŒ–æ•°ç»„
+void shell_sort(int* array, const int* dlta, const int dlta_count);//å¸Œå°”æ’åº
 void shell_insert(int* array, const int dk);
-void bubble_sort(int* array);//Ã°Åİ
-void insert_sort(int* array);//Ö±½Ó²åÈë
-void binary_insertion_sort(int* array);//ÕÛ°ë²åÈë
+void bubble_sort(int* array);//å†’æ³¡
+void insert_sort(int* array);//ç›´æ¥æ’å…¥
+void binary_insertion_sort(int* array);//æŠ˜åŠæ’å…¥
 int quick_sort_partition(int* array, int low, int high);
 void quick_sort(int* array, int low, int high);
-void quick_sort(int* array);//¿ìËÙÅÅĞò
-int select_min_key(int* array, const int i);//ÕÒ³ö×îĞ¡µÄÏÂ±ê
-void select_sort(int* array);//¼òµ¥Ñ¡ÔñÅÅĞò
+void quick_sort(int* array);//å¿«é€Ÿæ’åº
+int select_min_key(int* array, const int i);//æ‰¾å‡ºæœ€å°çš„ä¸‹æ ‡
+void select_sort(int* array);//ç®€å•é€‰æ‹©æ’åº
 void heap_adjust(int* array, int s, int m);
-void heap_sort(int* array);//¶ÑÅÅĞò
+void heap_sort(int* array);//å †æ’åº
 int main()
 {
 	clock_t start = 0, finish = 0;
 	//int array[LENGTH] = { 4, 9, 8, 3, 6, 7, 5, 0, 2, 1 };
 	int array[LENGTH];
-	int dlta[] = { 1, 5, 19, 41, 109, 209, 505, 929, 2161, 3905 };//Ï£¶ûÅÅĞòÔöÁ¿
+	int dlta[] = { 1, 5, 19, 41, 109, 209, 505, 929, 2161, 3905 };//å¸Œå°”æ’åºå¢é‡
 
 	//OK shell_sort(array, dlta, 10);
 	//OK bubble_sort(array);
@@ -123,7 +123,7 @@ void print_which_sort(const int i)
 }
 void init_array(int* array)
 {
-	srand(unsigned(time(nullptr)));//Ê±¼äÖÖ
+	srand(unsigned(time(nullptr)));//æ—¶é—´ç§
 	for (int i = 0; i < LENGTH; ++i)
 	{
 		array[i] = int(random(0, 1000));
@@ -247,7 +247,7 @@ void quick_sort(int* array,const int low,const int high)
 }
 void quick_sort(int* array)
 {
-	//´Ë´¦ÎªĞèÒªÅÅĞòµÄÊı×éµÄÔÚ¼ÆËã»úÄÚ²¿µÄµØÖ·"ÅÅÍ·"ºÍ"½áÎ²"
+	//æ­¤å¤„ä¸ºéœ€è¦æ’åºçš„æ•°ç»„çš„åœ¨è®¡ç®—æœºå†…éƒ¨çš„åœ°å€"æ’å¤´"å’Œ"ç»“å°¾"
 	quick_sort(array, 0, LENGTH - 1);
 }
 
@@ -267,7 +267,7 @@ void select_sort(int* array)
 }
 int select_min_key(int* array,const int i)
 {
-	auto min = i;//Ä¬ÈÏµÚÒ»¸ö×îĞ¡
+	auto min = i;//é»˜è®¤ç¬¬ä¸€ä¸ªæœ€å°
 	for (auto j = i; j < LENGTH; ++j)
 	{
 		if (array[min] < array[j])
