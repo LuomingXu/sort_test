@@ -1,6 +1,6 @@
 ﻿#include <iostream>
 #include <time.h>
-#define  LENGTH 10000
+#define  LENGTH 10
 using namespace std;
 
 void print_which_sort(const int i);
@@ -30,10 +30,11 @@ int main()
 	int array[LENGTH];
 	int dlta[] = { 1, 5, 19, 41, 109, 209, 505, 929, 2161, 3905 };//希尔排序增量
 
+	srand(unsigned(time(nullptr)));//时间种
 	for (int i = 0; i < 10; ++i)
-	{
+	{	
 		init_array(array);
-		//show_array(array);
+		show_array(array);
 		print_which_sort(i);
 		switch (i)
 		{
@@ -93,7 +94,7 @@ int main()
 		}
 		std::cout << "cost time: " << double(finish - start) / CLOCKS_PER_SEC * 1000 << "ms" << endl;
 		start = 0; finish = 0;
-		//show_array(array);
+		show_array(array);
 		std::cout << endl << endl << endl;
 	}
 
@@ -108,34 +109,34 @@ void print_which_sort(const int i)
 	switch (i)
 	{
 	case 0:
-		std::cout << "bubble_sort----------------" << endl;
+		std::cout << "bubble_sort :" << endl;
 		break;
 	case 1:
-		std::cout << "insert_sort-------------------" << endl;
+		std::cout << "insert_sort :" << endl;
 		break;
 	case 2:
-		std::cout << "binary_insertion_sort------------------" << endl;
+		std::cout << "binary_insertion_sort :" << endl;
 		break;
 	case 3:
-		std::cout << "quick_sort-------------------------" << endl;
+		std::cout << "quick_sort :" << endl;
 		break;
 	case 4:
-		std::cout << "select_sort------------------" << endl;
+		std::cout << "select_sort :" << endl;
 		break;
 	case 5:
-		std::cout << "shell_sort------------------" << endl;
+		std::cout << "shell_sort :" << endl;
 		break;
 	case 6:
-		std::cout << "heap_sort------------------" << endl;
+		std::cout << "heap_sort :" << endl;
 		break;
 	case 7:
-		std::cout << "shell_sort_the_other------------------" << endl;
+		std::cout << "shell_sort_the_other :" << endl;
 		break;
 	case 8:
-		std::cout << "merge_sort------------------" << endl;
+		std::cout << "merge_sort :" << endl;
 		break;
 	case 9:
-		std::cout << "shell_sort_another------------------" << endl;
+		std::cout << "shell_sort_another :" << endl;
 		break;
 	default:
 		std::cout << "There is no such choice..." << endl;
@@ -143,8 +144,7 @@ void print_which_sort(const int i)
 	}
 }
 void init_array(int* array)
-{
-	srand(unsigned(time(nullptr)));//时间种
+{	
 	for (int i = 0; i < LENGTH; ++i)
 	{
 		array[i] = int(random(0, 1000));
